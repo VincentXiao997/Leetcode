@@ -9,6 +9,7 @@
   
 """
 
+# binary Search
 class Solution:
     def findSolution(self, customfunction: 'CustomFunction', z: int) -> List[List[int]]:
         result = []
@@ -29,5 +30,20 @@ class Solution:
                 result.append([x, left])
             elif customfunction.f(x, right) == z:
                 result.append([x, right])
+            x += 1
+        return result
+
+
+# two pointers
+class Solution2:
+    def findSolution(self, customfunction: 'CustomFunction', z: int) -> List[List[int]]:
+        result = []
+        x = 1
+        y = 1000
+        while x < 1001 and y > 0:
+            while y > 1 and customfunction.f(x, y) > z:
+                y -= 1
+            if customfunction.f(x, y) == z:
+                result.append([x, y])
             x += 1
         return result

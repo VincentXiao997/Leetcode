@@ -4,6 +4,7 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+# BFS
 class Solution:
     def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
         if not root:
@@ -21,5 +22,36 @@ class Solution:
                 if node.right:
                     queue.append(node.right)
         return deepestSum
+                    
+# DFS
+
+class Solution_DFS:
+    def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        sumVal, _ = self.dfs(root, 0)
+        return sumVal
+    
+    def dfs(self, node, depth):
+        if not node.left and not node.right:
+            return node.val, depth
+        
+        leftSum, rightSum, leftDepth, rightDepth = None, None, None, None
+        if node.left:
+            leftSum, leftDepth = self.dfs(node.left, depth + 1)
+        if node.right:
+            rightSum, rightDepth = self.dfs(node.right, depth + 1)
+        
+        if leftSum and rightSum:
+            if leftDepth == rightDepth:
+                return leftSum + rightSum, leftDepth 
+            elif leftDepth > rightDepth:
+                return leftSum, leftDepth
+            else:
+                return rightSum, rightDepth
+        elif leftSum:
+            return leftSum, leftDepth
+        else:
+            return rightSum, rightDepth
                     
                 
